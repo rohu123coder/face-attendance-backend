@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "123",
+    "database": "cumsdbms",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "123",
+    "database": "cumsdbms",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "Dominic123$",
+    "database": "cumsdbms",
+    "host": "43.205.236.133",
+    "dialect": "mysql"
+  }
+}
