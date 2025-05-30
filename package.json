@@ -1,0 +1,47 @@
+{
+    "name": "node-mysql-registration-login-api",
+    "version": "1.0.0",
+    "description": "Node.js + MySQL API for User Management, Authentication and Registration",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/cornflourblue/node-mysql-registration-login-api.git"
+    },
+    "scripts": {
+        "start": "node ./server.js",
+        "start:dev": "nodemon ./server.js"
+    },
+    "dependencies": {
+        "axios": "^1.4.0",
+        "bcrypt": "^5.1.0",
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.19.0",
+        "convert-excel-to-json": "^1.7.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "exceljs": "^4.3.0",
+        "express": "^4.17.1",
+        "express-jwt": "^6.0.0",
+        "express-xml-bodyparser": "^0.3.0",
+        "filereader": "^0.10.3",
+        "firebase-admin": "^11.10.1",
+        "joi": "^17.2.0",
+        "json-query": "^2.2.2",
+        "jsonwebtoken": "^8.5.1",
+        "moment-timezone": "^0.5.43",
+        "multer": "^1.4.2",
+        "mysql2": "^2.1.0",
+        "read-excel-file": "^5.1.0",
+        "rootpath": "^0.1.2",
+        "sequelize": "^6.3.4",
+        "sharp": "^0.32.5",
+        "socket.io": "^4.7.1",
+        "twilio": "^3.62.0",
+        "xlsx": "^0.17.0",
+        "xlsx-parse-json": "^3.1.1"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.4",
+        "sequelize-cli": "^6.2.0"
+    }
+}
