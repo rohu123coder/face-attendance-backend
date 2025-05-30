@@ -14,10 +14,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": "Dominic123$",
-    "database": "cumsdbms",
-    "host": "43.205.236.133",
+    "username": "dxni5mihh2cpi8507dt3",
+    "password": "pscale_pw_e4lB4wh71bKUCuZG4JkJpDPL0XiaWJqSTHcWNDP04C",
+    "database": "face_attendance_db",
+    "host": "aws.connect.psdb.io",
     "dialect": "mysql"
   }
 }
