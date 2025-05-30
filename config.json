@@ -1,0 +1,10 @@
+﻿{
+    "database": {
+        "host": "localhost",
+        "port": 3306,
+        "user": "root",
+        "password": "",
+        "database": "logistics"
+    },
+    "secret": "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTYxOTcwMTgwNiwiaWF0IjoxNjE5NzAxODA2fQ.dya4K1ewZf32WyQXlH73GC3NVcnodxfYkeTpMiG18Q0"
+}
