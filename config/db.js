@@ -1,5 +1,5 @@
-const mysql = require('mysql2');
-require('dotenv').config();
+const mysql = require("mysql2");
+require("dotenv").config();
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -7,17 +7,16 @@ const connection = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   ssl: {
-    require: true,
-    rejectUnauthorized: false
+    rejectUnauthorized: true, // ✅ Required by PlanetScale
   }
 });
 
 connection.connect((err) => {
   if (err) {
-    console.error('❌ Database connection failed:', err);
+    console.error("❌ Database connection failed:", err);
     return;
   }
-  console.log('✅ Connected to PlanetScale DB!');
+  console.log("✅ Connected to PlanetScale DB!");
 });
 
 module.exports = connection;
