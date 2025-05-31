@@ -2,6 +2,10 @@ require('rootpath')();
 const express = require('express');
 const app = express();
 const cors = require('cors');
+git add server.js
+git commit -m "✅ Final fix: structured server.js with middleware and admin route"
+git push origin main
+
 const bodyParser = require('body-parser');
 const errorHandler = require('_middleware/error-handler');
 const routes = require('routes');
