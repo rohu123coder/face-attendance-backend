@@ -270,5 +270,23 @@ router.get ('/parentapp/assocstudentattendance/:id', ParentAppController.getAllA
 router.put ('/parentapp/updatetoken', ParentAppController.updateDeviceToken);
 router.put ('/parentapp/updatestudentimage/:id', ParentAppController.updateStudentImage);
 
+const bcrypt = require("bcryptjs");
+const db = require("./config/db");
+
+router.get('/create-admin', async (req, res) => {
+  const hashedPassword = await bcrypt.hash("123456", 10);
+
+  try {
+    await db.query(
+      "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)",
+      ["Admin", "admin@clickfox.com", hashedPassword, "admin"]
+    );
+    res.json({ message: "✅ Admin created successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "❌ Admin creation failed", error });
+  }
+});
+
+
 
 module.exports = router;
