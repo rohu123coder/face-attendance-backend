@@ -2,42 +2,42 @@ require('rootpath')();
 const express = require('express');
 const app = express();
 const cors = require('cors');
-git add server.js
-git commit -m "✅ Final fix: structured server.js with middleware and admin route"
-git push origin main
-
 const bodyParser = require('body-parser');
-const errorHandler = require('_middleware/error-handler');
-const routes = require('routes');
-var xmlparser = require('express-xml-bodyparser');
-require('dotenv').config();
-var path = require('path');
+const xmlparser = require('express-xml-bodyparser');
+const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config();
 
-// Import the handleSocketEvents function from SocketHandler.js
+// WebSocket setup
 const handleSocketEvents = require('./websockets/SocketHandler');
 const mSocket = require("socket.io");
 
-// Middleware files
+// Middleware
+const errorHandler = require('_middleware/error-handler');
 const auth = require('_middleware/auth');
 const payment = require('_middleware/payment');
 const parentAuth = require('_middleware/parentAuth');
 const superadmin = require('_middleware/superadmin');
 
-// Make uploads public
+// Routes
+const routes = require('routes');
+
+// Make uploads folder public
 app.use(express.static(path.join(__dirname, 'uploads')));
+
+// Global middleware
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(xmlparser());
-app.use(cors());
 
-// ⬇️ Make /create-admin public BEFORE other middlewares
+// ✅ PUBLIC ROUTE: Create default admin (only for first time setup)
 app.get('/create-admin', async (req, res) => {
   const bcrypt = require("bcryptjs");
   const db = require("./config/db");
 
-  const hashedPassword = await bcrypt.hash("123456", 10);
-
   try {
+    const hashedPassword = await bcrypt.hash("123456", 10);
     await db.query(
       "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)",
       ["Admin", "admin@clickfox.com", hashedPassword, "admin"]
@@ -48,58 +48,53 @@ app.get('/create-admin', async (req, res) => {
   }
 });
 
-// ✅ Define public routes
+// Public routes
 const publicRoutes = ['/api/login', '/api/parentlogin', '/api/admin/login'];
 
-// 🔒 Middleware logic
+// 🔐 Role-based Middleware Handler
 app.use(async (req, res, next) => {
-  if (!publicRoutes.includes(req.path)) {
-    console.log('inside non public routes');
-    console.log(req.path);
-    let splittedPath = req.path.split('/');
-    let apiPath = splittedPath[2];
-    console.log('api path: ' + apiPath);
+  const isPublic = publicRoutes.includes(req.path);
+  if (!isPublic) {
+    const pathParts = req.path.split('/');
+    const apiPath = pathParts[2];
 
     if (apiPath === 'admin') {
-      console.log('Checking for super middlewares');
-      superadmin(req, res, next);
+      return superadmin(req, res, next);
     } else if (apiPath === 'parentapp') {
-      console.log('Checking for parent middlewares');
-      parentAuth(req, res, next);
+      return parentAuth(req, res, next);
     } else {
-      console.log('Checking for admin middlewares');
-      auth(req, res, next);
+      return auth(req, res, next);
     }
   } else {
     next();
   }
 });
 
-// 💳 Payment middleware
+// 💳 Payment Middleware (only for non-admin private routes)
 app.use(async (req, res, next) => {
-  const isPublicRoute = publicRoutes.includes(req.path);
-  let splittedPath = req.path.split('/');
-  let apiPath = splittedPath[2];
-  let isSuperAdminRoute = (apiPath === 'admin');
+  const pathParts = req.path.split('/');
+  const apiPath = pathParts[2];
+  const isPublic = publicRoutes.includes(req.path);
 
-  if (!(isPublicRoute || isSuperAdminRoute)) {
-    console.log('Checking for payment middlewares');
-    await payment(req, res, next);
+  if (!(isPublic || apiPath === 'admin')) {
+    return payment(req, res, next);
   } else {
     next();
   }
 });
 
-// ⬇️ API Routes
+// API Routes
 app.use('/api', routes);
 
 // Global error handler
 app.use(errorHandler);
 
-// Server Start
+// Start Server
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 5000;
-const server = app.listen(port, () => console.log('Server listening on port ' + port));
+const server = app.listen(port, () => {
+  console.log('🚀 Server listening on port ' + port);
+});
 
-// ⬇️ WebSocket integration
+// 🔌 Initialize WebSocket
 const io = mSocket(server);
 handleSocketEvents(io);
