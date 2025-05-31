@@ -7,7 +7,7 @@ const connection = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   ssl: {
-    rejectUnauthorized: true
+    rejectUnauthorized: true, // ⬅️ this is the fix
   }
 });
 
@@ -16,7 +16,7 @@ connection.connect((err) => {
     console.error('❌ Database connection failed:', err);
     return;
   }
-  console.log('✅ Connected to database!');
+  console.log('✅ Connected to PlanetScale DB!');
 });
 
 module.exports = connection;
