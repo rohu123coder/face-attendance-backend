@@ -6,7 +6,7 @@ const connection = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  ssl: 'Amazon RDS', // ✅ THIS LINE IS THE FIX
+  ssl: 'Amazon RDS'  // ✅ Correct SSL for PlanetScale
 });
 
 connection.connect((err) => {
